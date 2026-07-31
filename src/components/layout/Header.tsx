@@ -49,58 +49,140 @@ function Header() {
         backdrop-blur
       "
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+
+      <div
+        className="
+          mx-auto
+          flex
+          max-w-6xl
+          items-center
+          justify-between
+          px-4
+          py-4
+          sm:px-6
+        "
+      >
+
         <a
           href="#inicio"
-          className="text-xl font-bold text-white transition hover:text-blue-400"
+          onClick={() => setMenuOpen(false)}
+          className="
+            text-lg
+            font-bold
+            text-white
+            transition
+            hover:text-blue-400
+            sm:text-xl
+          "
         >
           Márcio Dutra
         </a>
 
+
         <nav className="hidden items-center gap-6 text-sm md:flex">
+
           {links.map((link) => (
+
             <a
               key={link.id}
               href={link.href}
-              className={`transition ${
-                activeSection === link.id
-                  ? "font-semibold text-blue-400"
-                  : "text-gray-300 hover:text-white"
-              }`}
+              className={`
+                transition
+                ${
+                  activeSection === link.id
+                    ? "font-semibold text-blue-400"
+                    : "text-gray-300 hover:text-white"
+                }
+              `}
             >
               {link.label}
             </a>
+
           ))}
+
         </nav>
+
 
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="text-white md:hidden"
+          aria-label="Abrir menu"
+          className="
+            rounded-md
+            p-2
+            text-white
+            transition
+            hover:bg-white/10
+            md:hidden
+          "
         >
-          {menuOpen ? <X size={28} /> : <Menu size={28} />}
+
+          {menuOpen ? (
+            <X size={28} />
+          ) : (
+            <Menu size={28} />
+          )}
+
         </button>
+
       </div>
 
-      {menuOpen && (
-        <nav className="border-t border-white/10 bg-zinc-950 md:hidden">
-          <div className="flex flex-col px-6 py-4">
-            {links.map((link) => (
-              <a
-                key={link.id}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                className={`rounded-md px-3 py-3 transition ${
+
+      <div
+        className={`
+          overflow-hidden
+          border-t
+          border-white/10
+          bg-zinc-950
+          transition-all
+          duration-300
+          md:hidden
+          ${
+            menuOpen
+              ? "max-h-screen opacity-100"
+              : "max-h-0 opacity-0"
+          }
+        `}
+      >
+
+        <nav
+          className="
+            flex
+            flex-col
+            gap-1
+            px-4
+            py-4
+            sm:px-6
+          "
+        >
+
+          {links.map((link) => (
+
+            <a
+              key={link.id}
+              href={link.href}
+              onClick={() => setMenuOpen(false)}
+              className={`
+                rounded-lg
+                px-4
+                py-3
+                text-sm
+                transition
+                ${
                   activeSection === link.id
                     ? "bg-blue-500 text-white"
                     : "text-gray-300 hover:bg-zinc-800 hover:text-white"
-                }`}
-              >
-                {link.label}
-              </a>
-            ))}
-          </div>
+                }
+              `}
+            >
+              {link.label}
+            </a>
+
+          ))}
+
         </nav>
-      )}
+
+      </div>
+
     </header>
   );
 }
