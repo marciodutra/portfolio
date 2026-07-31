@@ -6,9 +6,29 @@ function Hero() {
   return (
     <section
       id="inicio"
-      className="flex min-h-screen items-center bg-black px-6 pt-24 text-white"
+      className="
+        flex
+        min-h-screen
+        items-center
+        overflow-x-hidden
+        bg-black
+        px-6
+        pt-24
+        text-white
+      "
     >
-      <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2">
+
+      <div
+        className="
+          mx-auto
+          grid
+          w-full
+          max-w-6xl
+          items-center
+          gap-12
+          md:grid-cols-2
+        "
+      >
 
         <motion.div
           initial={{
@@ -25,14 +45,18 @@ function Hero() {
           transition={{
             duration: 0.7,
           }}
-          className="flex justify-center"
+          className="
+            flex
+            justify-center
+          "
         >
+
           <img
             src={profile}
             alt="Márcio Dutra"
             className="
-              h-80
-              w-80
+              h-64
+              w-64
               rounded-full
               border-4
               border-white/20
@@ -41,8 +65,11 @@ function Hero() {
               transition
               duration-500
               hover:scale-105
+              sm:h-80
+              sm:w-80
             "
           />
+
         </motion.div>
 
 
@@ -62,6 +89,7 @@ function Hero() {
             duration: 0.7,
             delay: 0.2,
           }}
+          className="w-full"
         >
 
           <p className="mb-4 text-lg text-gray-400">
@@ -69,12 +97,26 @@ function Hero() {
           </p>
 
 
-          <h1 className="text-5xl font-bold">
+          <h1
+            className="
+              text-4xl
+              font-bold
+              sm:text-5xl
+            "
+          >
             Márcio Dutra
           </h1>
 
 
-          <h2 className="mt-4 text-3xl font-semibold text-gray-200">
+          <h2
+            className="
+              mt-4
+              text-2xl
+              font-semibold
+              text-gray-200
+              sm:text-3xl
+            "
+          >
             Transformando ideias em soluções digitais
           </h2>
 
@@ -86,7 +128,14 @@ function Hero() {
           </p>
 
 
-          <div className="mt-8 flex gap-4">
+          <div
+            className="
+              mt-8
+              flex
+              flex-wrap
+              gap-4
+            "
+          >
 
             <a
               href="https://github.com/marciodutra"
@@ -131,9 +180,11 @@ function Hero() {
 
           </div>
 
+
         </motion.div>
 
       </div>
+
     </section>
   );
 }
