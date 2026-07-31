@@ -4,8 +4,15 @@ function About() {
   return (
     <section
       id="sobre"
-      className="bg-zinc-950 px-6 py-24 text-white"
+      className="
+        overflow-x-hidden
+        bg-zinc-950
+        px-6
+        py-24
+        text-white
+      "
     >
+
       <div className="mx-auto max-w-6xl">
 
         <motion.h2
@@ -31,6 +38,7 @@ function About() {
 
         <div className="mt-8 grid gap-8 md:grid-cols-2">
 
+
           <motion.div
             initial={{
               opacity: 0,
@@ -46,6 +54,7 @@ function About() {
             transition={{
               duration: 0.7,
             }}
+            className="w-full"
           >
 
             <p className="text-lg leading-relaxed text-gray-300">
@@ -62,6 +71,7 @@ function About() {
             </p>
 
           </motion.div>
+
 
 
           <motion.div
@@ -81,6 +91,7 @@ function About() {
               delay: 0.2,
             }}
             className="
+              w-full
               rounded-xl
               border
               border-white/10
@@ -128,6 +139,7 @@ function About() {
         </div>
 
       </div>
+
     </section>
   );
 }
