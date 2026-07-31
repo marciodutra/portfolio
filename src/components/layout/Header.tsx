@@ -1,4 +1,19 @@
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
+
 function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const links = [
+    { label: "Início", href: "#inicio" },
+    { label: "Sobre", href: "#sobre" },
+    { label: "Experiência", href: "#experiencia" },
+    { label: "Tecnologias", href: "#tecnologias" },
+    { label: "Projetos", href: "#projetos" },
+    { label: "QA", href: "#qa" },
+    { label: "Contato", href: "#contato" },
+  ];
+
   return (
     <header
       className="
@@ -20,57 +35,60 @@ function Header() {
           Márcio Dutra
         </a>
 
-        <nav className="flex items-center gap-6 text-sm text-gray-300">
-          <a
-            href="#inicio"
-            className="transition hover:text-white"
-          >
-            Início
-          </a>
-
-          <a
-            href="#sobre"
-            className="transition hover:text-white"
-          >
-            Sobre
-          </a>
-
-          <a
-            href="#experiencia"
-            className="transition hover:text-white"
-          >
-            Experiência
-          </a>
-
-          <a
-            href="#tecnologias"
-            className="transition hover:text-white"
-          >
-            Tecnologias
-          </a>
-
-          <a
-            href="#projetos"
-            className="transition hover:text-white"
-          >
-            Projetos
-          </a>
-
-          <a
-            href="#qa"
-            className="transition hover:text-white"
-          >
-            QA
-          </a>
-
-          <a
-            href="#contato"
-            className="transition hover:text-white"
-          >
-            Contato
-          </a>
+        {/* Desktop */}
+        <nav className="hidden items-center gap-6 text-sm text-gray-300 md:flex">
+          {links.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="transition hover:text-white"
+            >
+              {link.label}
+            </a>
+          ))}
         </nav>
+
+        {/* Botão Mobile */}
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="text-white md:hidden"
+        >
+          {menuOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
       </div>
+
+      {/* Menu Mobile */}
+      {menuOpen && (
+        <nav
+          className="
+            border-t
+            border-white/10
+            bg-zinc-950
+            md:hidden
+          "
+        >
+          <div className="flex flex-col px-6 py-4">
+            {links.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => setMenuOpen(false)}
+                className="
+                  rounded-md
+                  px-3
+                  py-3
+                  text-gray-300
+                  transition
+                  hover:bg-zinc-800
+                  hover:text-white
+                "
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+        </nav>
+      )}
     </header>
   );
 }
