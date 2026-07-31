@@ -1,4 +1,6 @@
+import { motion } from "framer-motion";
 import { Mail, FileText } from "lucide-react";
+
 import {
   FaGithub,
   FaLinkedin,
@@ -7,105 +9,228 @@ import {
 
 import curriculo from "../../assets/documents/curriculo.pdf";
 
+
 function Contact() {
+  const contacts = [
+    {
+      title: "WhatsApp",
+      description: "(51) 99469-0210",
+      icon: <FaWhatsapp />,
+      link: "https://wa.me/5551994690210",
+      color: "hover:border-green-500",
+      iconColor: "text-green-500",
+    },
+
+    {
+      title: "LinkedIn",
+      description: "Márcio Dutra",
+      icon: <FaLinkedin />,
+      link: "https://www.linkedin.com/in/m%C3%A1rcio-dutra-10362222/",
+      color: "hover:border-blue-500",
+      iconColor: "text-blue-500",
+    },
+
+    {
+      title: "GitHub",
+      description: "@marciodutra",
+      icon: <FaGithub />,
+      link: "https://github.com/marciodutra",
+      color: "hover:border-gray-300",
+      iconColor: "text-white",
+    },
+
+    {
+      title: "E-mail",
+      description: "professormarciodutra@gmail.com",
+      icon: <Mail />,
+      link: "mailto:professormarciodutra@gmail.com",
+      color: "hover:border-red-400",
+      iconColor: "text-red-400",
+    },
+  ];
+
+
   return (
     <section
       id="contato"
       className="bg-zinc-950 px-6 py-24 text-white"
     >
-      <div className="mx-auto max-w-6xl">
-        <h2 className="text-center text-4xl font-bold">
-          Entre em Contato
-        </h2>
 
-        <p className="mx-auto mt-4 max-w-2xl text-center text-gray-400">
+      <div className="mx-auto max-w-6xl">
+
+
+        <motion.h2
+          initial={{
+            opacity: 0,
+            y: 30,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 0.6,
+          }}
+          className="text-center text-4xl font-bold"
+        >
+          Entre em Contato
+        </motion.h2>
+
+
+
+
+        <motion.p
+          initial={{
+            opacity: 0,
+          }}
+          whileInView={{
+            opacity: 1,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 0.7,
+            delay: 0.2,
+          }}
+          className="mx-auto mt-4 max-w-2xl text-center text-gray-400"
+        >
           Estou sempre aberto a novas oportunidades,
           projetos e desafios nas áreas de Desenvolvimento
           de Software, QA Automation e Análise de Sistemas.
-        </p>
+        </motion.p>
+
+
+
 
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <a
-            href="https://wa.me/5551994690210"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-xl border border-white/10 bg-white/5 p-6 transition hover:-translate-y-2 hover:border-green-500"
-          >
-            <FaWhatsapp className="mb-4 text-4xl text-green-500" />
 
-            <h3 className="text-xl font-semibold">
-              WhatsApp
-            </h3>
 
-            <p className="mt-2 text-sm text-gray-400">
-              (51) 99469-0210
-            </p>
-          </a>
+          {contacts.map((contact, index) => (
 
-          <a
-            href="https://www.linkedin.com/in/m%C3%A1rcio-dutra-10362222/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-xl border border-white/10 bg-white/5 p-6 transition hover:-translate-y-2 hover:border-blue-500"
-          >
-            <FaLinkedin className="mb-4 text-4xl text-blue-500" />
+            <motion.a
+              key={contact.title}
+              href={contact.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{
+                opacity: 0,
+                y: 50,
+              }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+              }}
+              viewport={{
+                once: true,
+              }}
+              transition={{
+                duration: 0.6,
+                delay: index * 0.2,
+              }}
+              className={`
+                rounded-xl
+                border
+                border-white/10
+                bg-white/5
+                p-6
+                transition
+                duration-300
+                hover:-translate-y-3
+                hover:bg-white/10
+                hover:shadow-xl
+                ${contact.color}
+              `}
+            >
 
-            <h3 className="text-xl font-semibold">
-              LinkedIn
-            </h3>
+              <div
+                className={`
+                  mb-4
+                  text-4xl
+                  ${contact.iconColor}
+                `}
+              >
+                {contact.icon}
+              </div>
 
-            <p className="mt-2 text-sm text-gray-400">
-              Márcio Dutra
-            </p>
-          </a>
 
-          <a
-            href="https://github.com/marciodutra"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-xl border border-white/10 bg-white/5 p-6 transition hover:-translate-y-2 hover:border-gray-300"
-          >
-            <FaGithub className="mb-4 text-4xl" />
+              <h3 className="text-xl font-semibold">
+                {contact.title}
+              </h3>
 
-            <h3 className="text-xl font-semibold">
-              GitHub
-            </h3>
 
-            <p className="mt-2 text-sm text-gray-400">
-              @marciodutra
-            </p>
-          </a>
+              <p className="mt-2 break-all text-sm text-gray-400">
+                {contact.description}
+              </p>
 
-          <a
-            href="mailto:professormarciodutra@gmail.com"
-            className="rounded-xl border border-white/10 bg-white/5 p-6 transition hover:-translate-y-2 hover:border-red-400"
-          >
-            <Mail className="mb-4 h-10 w-10 text-red-400" />
 
-            <h3 className="text-xl font-semibold">
-              E-mail
-            </h3>
+            </motion.a>
 
-            <p className="mt-2 break-all text-sm text-gray-400">
-              professormarciodutra@gmail.com
-            </p>
-          </a>
+          ))}
+
+
         </div>
 
-        <div className="mt-12 flex justify-center">
+
+
+
+        <motion.div
+          initial={{
+            opacity: 0,
+            y: 30,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 0.6,
+            delay: 0.3,
+          }}
+          className="mt-12 flex justify-center"
+        >
+
           <a
             href={curriculo}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-3 rounded-lg bg-white px-6 py-3 font-semibold text-black transition hover:scale-105"
+            className="
+              flex
+              items-center
+              gap-3
+              rounded-lg
+              bg-white
+              px-8
+              py-3
+              font-semibold
+              text-black
+              transition
+              hover:scale-105
+              hover:bg-gray-200
+            "
           >
+
             <FileText size={20} />
+
             Visualizar Currículo
+
           </a>
-        </div>
+
+
+        </motion.div>
+
+
       </div>
+
     </section>
   );
 }
+
 
 export default Contact;
