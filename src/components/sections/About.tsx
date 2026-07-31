@@ -5,7 +5,9 @@ function About() {
     <section
       id="sobre"
       className="
-        overflow-x-hidden
+        w-full
+        max-w-full
+        overflow-hidden
         bg-zinc-950
         px-6
         py-24
@@ -13,7 +15,14 @@ function About() {
       "
     >
 
-      <div className="mx-auto max-w-6xl">
+      <div
+        className="
+          mx-auto
+          w-full
+          max-w-6xl
+          overflow-hidden
+        "
+      >
 
         <motion.h2
           initial={{
@@ -36,7 +45,15 @@ function About() {
         </motion.h2>
 
 
-        <div className="mt-8 grid gap-8 md:grid-cols-2">
+        <div
+          className="
+            mt-8
+            grid
+            w-full
+            gap-8
+            md:grid-cols-2
+          "
+        >
 
 
           <motion.div
@@ -54,7 +71,10 @@ function About() {
             transition={{
               duration: 0.7,
             }}
-            className="w-full"
+            className="
+              w-full
+              overflow-hidden
+            "
           >
 
             <p className="text-lg leading-relaxed text-gray-300">
@@ -92,6 +112,7 @@ function About() {
             }}
             className="
               w-full
+              overflow-hidden
               rounded-xl
               border
               border-white/10
