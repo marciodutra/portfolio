@@ -1,5 +1,3 @@
-import { motion } from "framer-motion";
-
 import profile from "../../assets/images/profile.jpg";
 
 function Hero() {
@@ -9,8 +7,9 @@ function Hero() {
       className="
         flex
         min-h-screen
+        w-full
+        overflow-hidden
         items-center
-        overflow-x-hidden
         bg-black
         px-6
         pt-24
@@ -30,23 +29,10 @@ function Hero() {
         "
       >
 
-        <motion.div
-          initial={{
-            opacity: 0,
-            x: -50,
-          }}
-          whileInView={{
-            opacity: 1,
-            x: 0,
-          }}
-          viewport={{
-            once: true,
-          }}
-          transition={{
-            duration: 0.7,
-          }}
+        <div
           className="
             flex
+            w-full
             justify-center
           "
         >
@@ -70,26 +56,13 @@ function Hero() {
             "
           />
 
-        </motion.div>
+        </div>
 
 
-        <motion.div
-          initial={{
-            opacity: 0,
-            x: 50,
-          }}
-          whileInView={{
-            opacity: 1,
-            x: 0,
-          }}
-          viewport={{
-            once: true,
-          }}
-          transition={{
-            duration: 0.7,
-            delay: 0.2,
-          }}
-          className="w-full"
+        <div
+          className="
+            w-full
+          "
         >
 
           <p className="mb-4 text-lg text-gray-400">
@@ -121,7 +94,14 @@ function Hero() {
           </h2>
 
 
-          <p className="mt-6 text-lg leading-relaxed text-gray-400">
+          <p
+            className="
+              mt-6
+              text-lg
+              leading-relaxed
+              text-gray-400
+            "
+          >
             Portfólio profissional apresentando projetos de desenvolvimento,
             qualidade de software, automação de testes e experiências na área
             de tecnologia.
@@ -180,8 +160,7 @@ function Hero() {
 
           </div>
 
-
-        </motion.div>
+        </div>
 
       </div>
 
