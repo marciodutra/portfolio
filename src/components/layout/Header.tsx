@@ -40,21 +40,22 @@ function Header() {
     <header
       className="
         fixed
+        left-0
         top-0
         z-50
         w-full
+        overflow-x-hidden
         border-b
         border-white/10
-        bg-zinc-950/80
+        bg-zinc-950/90
         backdrop-blur
       "
     >
 
       <div
         className="
-          mx-auto
           flex
-          max-w-6xl
+          w-full
           items-center
           justify-between
           px-4
@@ -67,11 +68,10 @@ function Header() {
           href="#inicio"
           onClick={() => setMenuOpen(false)}
           className="
+            whitespace-nowrap
             text-lg
             font-bold
             text-white
-            transition
-            hover:text-blue-400
             sm:text-xl
           "
         >
@@ -79,10 +79,9 @@ function Header() {
         </a>
 
 
-        <nav className="hidden items-center gap-6 text-sm md:flex">
+        <nav className="hidden md:flex items-center gap-6 text-sm">
 
           {links.map((link) => (
-
             <a
               key={link.id}
               href={link.href}
@@ -97,21 +96,22 @@ function Header() {
             >
               {link.label}
             </a>
-
           ))}
 
         </nav>
 
 
         <button
+          type="button"
           onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Abrir menu"
           className="
+            flex
+            h-10
+            w-10
+            items-center
+            justify-center
             rounded-md
-            p-2
             text-white
-            transition
-            hover:bg-white/10
             md:hidden
           "
         >
@@ -127,61 +127,54 @@ function Header() {
       </div>
 
 
-      <div
-        className={`
-          overflow-hidden
-          border-t
-          border-white/10
-          bg-zinc-950
-          transition-all
-          duration-300
-          md:hidden
-          ${
-            menuOpen
-              ? "max-h-screen opacity-100"
-              : "max-h-0 opacity-0"
-          }
-        `}
-      >
+      {menuOpen && (
 
-        <nav
+        <div
           className="
-            flex
-            flex-col
-            gap-1
-            px-4
-            py-4
-            sm:px-6
+            w-full
+            border-t
+            border-white/10
+            bg-zinc-950
+            md:hidden
           "
         >
 
-          {links.map((link) => (
+          <nav
+            className="
+              flex
+              flex-col
+              px-4
+              py-4
+            "
+          >
 
-            <a
-              key={link.id}
-              href={link.href}
-              onClick={() => setMenuOpen(false)}
-              className={`
-                rounded-lg
-                px-4
-                py-3
-                text-sm
-                transition
-                ${
-                  activeSection === link.id
-                    ? "bg-blue-500 text-white"
-                    : "text-gray-300 hover:bg-zinc-800 hover:text-white"
-                }
-              `}
-            >
-              {link.label}
-            </a>
+            {links.map((link) => (
 
-          ))}
+              <a
+                key={link.id}
+                href={link.href}
+                onClick={() => setMenuOpen(false)}
+                className={`
+                  rounded-lg
+                  px-4
+                  py-3
+                  ${
+                    activeSection === link.id
+                      ? "bg-blue-500 text-white"
+                      : "text-gray-300 hover:bg-zinc-800"
+                  }
+                `}
+              >
+                {link.label}
+              </a>
 
-        </nav>
+            ))}
 
-      </div>
+          </nav>
+
+        </div>
+
+      )}
 
     </header>
   );
