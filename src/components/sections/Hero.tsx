@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+
 import profile from "../../assets/images/profile.jpg";
 
 function Hero() {
@@ -6,21 +8,61 @@ function Hero() {
       id="inicio"
       className="flex min-h-screen items-center bg-black px-6 pt-24 text-white"
     >
-
       <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2">
 
-        <div className="flex justify-center">
-
+        <motion.div
+          initial={{
+            opacity: 0,
+            x: -50,
+          }}
+          whileInView={{
+            opacity: 1,
+            x: 0,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 0.7,
+          }}
+          className="flex justify-center"
+        >
           <img
             src={profile}
             alt="Márcio Dutra"
-            className="h-80 w-80 rounded-full border-4 border-white/20 object-cover shadow-xl"
+            className="
+              h-80
+              w-80
+              rounded-full
+              border-4
+              border-white/20
+              object-cover
+              shadow-xl
+              transition
+              duration-500
+              hover:scale-105
+            "
           />
+        </motion.div>
 
-        </div>
 
-
-        <div>
+        <motion.div
+          initial={{
+            opacity: 0,
+            x: 50,
+          }}
+          whileInView={{
+            opacity: 1,
+            x: 0,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 0.7,
+            delay: 0.2,
+          }}
+        >
 
           <p className="mb-4 text-lg text-gray-400">
             Analista de Sistemas | Desenvolvedor Web | QA
@@ -49,26 +91,49 @@ function Hero() {
             <a
               href="https://github.com/marciodutra"
               target="_blank"
-              className="rounded-lg bg-white px-6 py-3 font-semibold text-black transition hover:bg-gray-200"
+              rel="noopener noreferrer"
+              className="
+                rounded-lg
+                bg-white
+                px-6
+                py-3
+                font-semibold
+                text-black
+                transition
+                hover:scale-105
+                hover:bg-gray-200
+              "
             >
               GitHub
             </a>
 
 
             <a
-              href="https://wa.me/"
+              href="https://wa.me/5551994690210"
               target="_blank"
-              className="rounded-lg border border-white px-6 py-3 font-semibold text-white transition hover:bg-white hover:text-black"
+              rel="noopener noreferrer"
+              className="
+                rounded-lg
+                border
+                border-white
+                px-6
+                py-3
+                font-semibold
+                text-white
+                transition
+                hover:scale-105
+                hover:bg-white
+                hover:text-black
+              "
             >
               WhatsApp
             </a>
 
           </div>
 
-        </div>
+        </motion.div>
 
       </div>
-
     </section>
   );
 }

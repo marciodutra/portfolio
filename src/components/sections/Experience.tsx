@@ -1,133 +1,226 @@
+import { motion } from "framer-motion";
+
 import { experiences } from "../../data/experience";
 import curriculo from "../../assets/documents/curriculo.pdf";
 
 
 function Experience() {
+  return (
+    <section
+      id="experiencia"
+      className="bg-black px-6 py-24 text-white"
+    >
 
-    return (
+      <div className="mx-auto max-w-6xl">
 
-        <section
-            id="experiencia"
-            className="bg-black px-6 py-24 text-white"
+        <motion.h2
+          initial={{
+            opacity: 0,
+            y: 30,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 0.6,
+          }}
+          className="text-4xl font-bold"
         >
-
-            <div className="mx-auto max-w-6xl">
-
-
-                <h2 className="text-4xl font-bold">
-                    Experiência Profissional
-                </h2>
+          Experiência Profissional
+        </motion.h2>
 
 
-                <p className="mt-4 text-gray-400">
-                    Minha trajetória profissional envolvendo qualidade de software,
-                    desenvolvimento, infraestrutura e tecnologia.
+        <motion.p
+          initial={{
+            opacity: 0,
+          }}
+          whileInView={{
+            opacity: 1,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 0.7,
+            delay: 0.2,
+          }}
+          className="mt-4 text-gray-400"
+        >
+          Minha trajetória profissional envolvendo qualidade de software,
+          desenvolvimento, infraestrutura e tecnologia.
+        </motion.p>
+
+
+
+        <div className="relative mt-12 space-y-10 border-l border-white/20 pl-8">
+
+
+          {experiences.map((experience, index) => (
+
+            <motion.div
+              key={experience.company}
+              initial={{
+                opacity: 0,
+                x: index % 2 === 0 ? -60 : 60,
+              }}
+              whileInView={{
+                opacity: 1,
+                x: 0,
+              }}
+              viewport={{
+                once: true,
+              }}
+              transition={{
+                duration: 0.7,
+                delay: index * 0.15,
+              }}
+              className="relative"
+            >
+
+              <div
+                className="
+                  absolute
+                  -left-[42px]
+                  top-6
+                  h-5
+                  w-5
+                  rounded-full
+                  border-4
+                  border-black
+                  bg-blue-500
+                "
+              />
+
+
+              <div
+                className="
+                  rounded-xl
+                  border
+                  border-white/10
+                  bg-white/5
+                  p-6
+                  transition
+                  duration-300
+                  hover:-translate-y-3
+                  hover:border-blue-400/50
+                  hover:shadow-xl
+                "
+              >
+
+                <div className="flex flex-col justify-between gap-2 md:flex-row">
+
+                  <div>
+
+                    <h3 className="text-2xl font-semibold">
+                      {experience.role}
+                    </h3>
+
+
+                    <p className="text-gray-400">
+                      {experience.company}
+                    </p>
+
+                  </div>
+
+
+                  <span className="text-sm text-gray-400">
+                    {experience.period}
+                  </span>
+
+
+                </div>
+
+
+
+                <p className="mt-5 leading-relaxed text-gray-300">
+                  {experience.description}
                 </p>
 
 
-                <div className="mt-10 space-y-8">
 
+                <div className="mt-5 flex flex-wrap gap-2">
 
-                    {experiences.map((experience) => (
+                  {experience.technologies.map((tech) => (
 
-                        <div
-                            key={experience.company}
-                            className="
-                rounded-xl
-                border
-                border-white/10
-                bg-white/5
-                p-6
-              "
-                        >
-
-
-                            <div className="flex flex-col justify-between gap-2 md:flex-row">
-
-
-                                <div>
-
-                                    <h3 className="text-2xl font-semibold">
-                                        {experience.role}
-                                    </h3>
-
-
-                                    <p className="text-gray-400">
-                                        {experience.company}
-                                    </p>
-
-                                </div>
-
-
-                                <span className="text-sm text-gray-400">
-                                    {experience.period}
-                                </span>
-
-
-                            </div>
-
-
-
-                            <p className="mt-5 leading-relaxed text-gray-300">
-                                {experience.description}
-                            </p>
-
-
-
-                            <div className="mt-5 flex flex-wrap gap-2">
-
-
-                                {experience.technologies.map((tech) => (
-
-                                    <span
-                                        key={tech}
-                                        className="
-                      rounded-full
-                      bg-white/10
-                      px-3
-                      py-1
-                      text-xs
-                    "
-                                    >
-                                        {tech}
-                                    </span>
-
-                                ))}
-
-
-                            </div>
-
-
-                        </div>
-
-                    ))}
-
-
-                </div>
-
-
-
-                <div className="mt-12">
-
-                    <a
-                        href={curriculo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="rounded-lg bg-white px-6 py-3 font-semibold text-black transition hover:bg-gray-200"
+                    <span
+                      key={tech}
+                      className="
+                        rounded-full
+                        bg-blue-500/10
+                        px-3
+                        py-1
+                        text-xs
+                        text-blue-300
+                      "
                     >
-                        📄 Ver currículo
-                    </a>
+                      {tech}
+                    </span>
 
+                  ))}
 
                 </div>
 
 
-            </div>
+              </div>
 
-        </section>
 
-    );
+            </motion.div>
 
+          ))}
+
+
+        </div>
+
+
+
+        <motion.div
+          initial={{
+            opacity: 0,
+            y: 30,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 0.6,
+          }}
+          className="mt-12"
+        >
+
+          <a
+            href={curriculo}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="
+              rounded-lg
+              bg-white
+              px-6
+              py-3
+              font-semibold
+              text-black
+              transition
+              hover:scale-105
+              hover:bg-gray-200
+            "
+          >
+            📄 Ver currículo
+          </a>
+
+        </motion.div>
+
+
+      </div>
+
+    </section>
+  );
 }
 
 

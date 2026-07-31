@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+
 const skills = [
   {
     title: "Desenvolvimento Frontend",
@@ -28,6 +30,7 @@ const skills = [
     title: "Banco de Dados",
     items: [
       "MySQL",
+      "PostgreSQL",
       "Modelagem de Dados",
       "Consultas SQL",
     ],
@@ -75,48 +78,129 @@ function Skills() {
 
       <div className="mx-auto max-w-6xl">
 
-        <h2 className="text-4xl font-bold">
+
+        <motion.h2
+          initial={{
+            opacity: 0,
+            y: 30,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 0.6,
+          }}
+          className="text-4xl font-bold"
+        >
           Tecnologias e Ferramentas
-        </h2>
+        </motion.h2>
 
 
-        <p className="mt-4 max-w-3xl text-gray-400">
+
+        <motion.p
+          initial={{
+            opacity: 0,
+          }}
+          whileInView={{
+            opacity: 1,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 0.7,
+            delay: 0.2,
+          }}
+          className="mt-4 max-w-3xl text-gray-400"
+        >
           Tecnologias utilizadas em projetos de desenvolvimento,
           automação de testes, qualidade de software e análise de sistemas.
-        </p>
+        </motion.p>
+
 
 
         <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 
-          {skills.map((skill) => (
 
-            <div
+          {skills.map((skill, index) => (
+
+            <motion.div
               key={skill.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-6 transition hover:border-white/30"
+              initial={{
+                opacity: 0,
+                y: 50,
+              }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+              }}
+              viewport={{
+                once: true,
+              }}
+              transition={{
+                duration: 0.6,
+                delay: index * 0.15,
+              }}
+              className="
+                rounded-xl
+                border
+                border-white/10
+                bg-white/5
+                p-6
+                transition
+                duration-300
+                hover:-translate-y-3
+                hover:border-blue-400/50
+                hover:shadow-xl
+              "
             >
+
 
               <h3 className="text-xl font-semibold">
                 {skill.title}
               </h3>
 
 
-              <ul className="mt-4 space-y-2 text-gray-300">
+
+              <ul className="mt-5 flex flex-wrap gap-2">
+
 
                 {skill.items.map((item) => (
 
-                  <li key={item}>
-                    • {item}
+                  <li
+                    key={item}
+                    className="
+                      rounded-full
+                      bg-white/10
+                      px-3
+                      py-1
+                      text-sm
+                      text-gray-300
+                      transition
+                      hover:bg-blue-500/20
+                      hover:text-blue-300
+                    "
+                  >
+                    {item}
                   </li>
 
                 ))}
 
+
               </ul>
 
-            </div>
+
+            </motion.div>
 
           ))}
 
+
         </div>
+
 
       </div>
 
