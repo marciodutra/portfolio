@@ -8,10 +8,23 @@ function Experience() {
   return (
     <section
       id="experiencia"
-      className="bg-black px-6 py-24 text-white"
+      className="
+        w-full
+        overflow-hidden
+        bg-black
+        px-6
+        py-24
+        text-white
+      "
     >
 
-      <div className="mx-auto max-w-6xl">
+      <div
+        className="
+          mx-auto
+          w-full
+          max-w-6xl
+        "
+      >
 
         <motion.h2
           initial={{
@@ -56,30 +69,39 @@ function Experience() {
 
 
 
-        <div className="relative mt-12 space-y-10 border-l border-white/20 pl-8">
+        <div
+          className="
+            relative
+            mt-12
+            space-y-10
+            border-l
+            border-white/20
+            pl-8
+          "
+        >
 
 
-          {experiences.map((experience, index) => (
+          {experiences.map((experience) => (
 
             <motion.div
               key={experience.company}
               initial={{
                 opacity: 0,
-                x: index % 2 === 0 ? -60 : 60,
+                y: 40,
               }}
               whileInView={{
                 opacity: 1,
-                x: 0,
+                y: 0,
               }}
               viewport={{
                 once: true,
               }}
               transition={{
                 duration: 0.7,
-                delay: index * 0.15,
               }}
-              className="relative"
+              className="relative w-full overflow-hidden"
             >
+
 
               <div
                 className="
@@ -111,7 +133,16 @@ function Experience() {
                 "
               >
 
-                <div className="flex flex-col justify-between gap-2 md:flex-row">
+
+                <div
+                  className="
+                    flex
+                    flex-col
+                    justify-between
+                    gap-2
+                    md:flex-row
+                  "
+                >
 
                   <div>
 
