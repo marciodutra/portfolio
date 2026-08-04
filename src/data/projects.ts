@@ -3,7 +3,7 @@ import escolar from "../assets/images/projects/escolar.png";
 import crypto from "../assets/images/projects/crypto.png";
 import hospitalar from "../assets/images/projects/hospitalar.png";
 import vendas from "../assets/images/projects/vendas.png";
-import siteImobiliaria from "../assets/images/projects/site-imobiliaria.jpg";
+import siteImobiliaria from "../assets/images/projects/site-imobiliaria.png";
 
 
 export const developmentProjects = [
