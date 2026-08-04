@@ -3,6 +3,7 @@ import escolar from "../assets/images/projects/escolar.png";
 import crypto from "../assets/images/projects/crypto.png";
 import hospitalar from "../assets/images/projects/hospitalar.png";
 import vendas from "../assets/images/projects/vendas.png";
+import siteImobiliaria from "../assets/images/projects/site-imobiliaria.jpg";
 
 
 export const developmentProjects = [
@@ -119,5 +120,27 @@ export const developmentProjects = [
 
     github:
       "https://github.com/marciodutra/Sistema_De_Pedidos",
+  },
+
+  {
+    title: "SIte de imobiliária",
+
+    image: siteImobiliaria,
+
+    description:
+      "Site de imobiliária com sistema integrado. Nele o usuário pode escolher um imóvel e falar com o corretor. O corretor pode se logar e cadastrar um imóvel e responder ao usuário.",
+
+    technologies: [
+      "React",
+      "Postegres",
+      "Javascript",
+      "Bootstrap",
+    ],
+
+    link:
+      "https://siteimobiliaria-bay.vercel.app/",
+
+    github:
+      "https://github.com/marciodutra/siteimobiliaria",
   },
 ];
