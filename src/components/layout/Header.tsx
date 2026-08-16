@@ -51,7 +51,6 @@ function Header() {
         backdrop-blur
       "
     >
-
       <div
         className="
           flex
@@ -63,7 +62,6 @@ function Header() {
           sm:px-6
         "
       >
-
         <a
           href="#inicio"
           onClick={() => setMenuOpen(false)}
@@ -78,8 +76,7 @@ function Header() {
           Márcio Dutra
         </a>
 
-
-        <nav className="hidden md:flex items-center gap-6 text-sm">
+        <nav className="hidden items-center gap-6 text-sm md:flex">
 
           {links.map((link) => (
             <a
@@ -98,8 +95,25 @@ function Header() {
             </a>
           ))}
 
-        </nav>
+          <a
+            href="/admin/login"
+            className="
+              rounded-lg
+              border
+              border-blue-500/50
+              px-4
+              py-2
+              font-semibold
+              text-blue-400
+              transition
+              hover:bg-blue-500
+              hover:text-white
+            "
+          >
+            Admin
+          </a>
 
+        </nav>
 
         <button
           type="button"
@@ -115,20 +129,15 @@ function Header() {
             md:hidden
           "
         >
-
           {menuOpen ? (
             <X size={28} />
           ) : (
             <Menu size={28} />
           )}
-
         </button>
-
       </div>
 
-
       {menuOpen && (
-
         <div
           className="
             w-full
@@ -138,7 +147,6 @@ function Header() {
             md:hidden
           "
         >
-
           <nav
             className="
               flex
@@ -147,9 +155,7 @@ function Header() {
               py-4
             "
           >
-
             {links.map((link) => (
-
               <a
                 key={link.id}
                 href={link.href}
@@ -167,15 +173,31 @@ function Header() {
               >
                 {link.label}
               </a>
-
             ))}
 
+            <a
+              href="/admin/login"
+              onClick={() => setMenuOpen(false)}
+              className="
+                mt-2
+                rounded-lg
+                border
+                border-blue-500/50
+                px-4
+                py-3
+                font-semibold
+                text-blue-400
+                transition
+                hover:bg-blue-500
+                hover:text-white
+              "
+            >
+              Admin
+            </a>
+
           </nav>
-
         </div>
-
       )}
-
     </header>
   );
 }
