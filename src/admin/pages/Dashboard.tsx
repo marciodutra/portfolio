@@ -56,6 +56,13 @@ export default function Dashboard() {
             <p className="mt-2 text-slate-400">
               Gerencie seus projetos.
             </p>
+
+            <button
+              onClick={() => navigate("/admin/projects")}
+              className="mt-5 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
+            >
+              Gerenciar Projetos
+            </button>
           </div>
 
           <div className="rounded-xl border border-slate-800 bg-slate-900 p-6">

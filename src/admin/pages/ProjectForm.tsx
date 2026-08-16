@@ -1,13 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import api from "../../services/api";
+
+interface Project {
+  id: number;
+  title: string;
+  image: string | null;
+  description: string;
+  technologies: string[];
+  link: string | null;
+  github: string | null;
+  active: boolean;
+  order: number;
+}
 
 export default function ProjectForm() {
   const navigate = useNavigate();
+  const { id } = useParams();
+
+  const isEditing = Boolean(id);
 
   const [title, setTitle] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState<File | null>(null);
+  const [currentImage, setCurrentImage] = useState<string | null>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+
   const [description, setDescription] = useState("");
   const [technologies, setTechnologies] = useState("");
   const [link, setLink] = useState("");
@@ -16,7 +34,84 @@ export default function ProjectForm() {
   const [active, setActive] = useState(true);
 
   const [loading, setLoading] = useState(false);
+  const [loadingProject, setLoadingProject] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!id) {
+      return;
+    }
+
+    async function loadProject() {
+      try {
+        setLoadingProject(true);
+        setError("");
+
+        const response = await api.get(`/projects/${id}`);
+
+        const project: Project = response.data;
+
+        setTitle(project.title || "");
+        setCurrentImage(project.image || null);
+        setDescription(project.description || "");
+
+        setTechnologies(
+          Array.isArray(project.technologies)
+            ? project.technologies.join(", ")
+            : ""
+        );
+
+        setLink(project.link || "");
+        setGithub(project.github || "");
+
+        setOrder(
+          project.order !== null && project.order !== undefined
+            ? String(project.order)
+            : ""
+        );
+
+        setActive(Boolean(project.active));
+      } catch (error: any) {
+        console.error("Erro ao carregar projeto:", error);
+
+        if (error.response?.status === 401) {
+          localStorage.removeItem("portfolio_token");
+          localStorage.removeItem("portfolio_user");
+
+          navigate("/admin/login");
+          return;
+        }
+
+        setError(
+          error.response?.data?.message ||
+            "Não foi possível carregar o projeto."
+        );
+      } finally {
+        setLoadingProject(false);
+      }
+    }
+
+    loadProject();
+  }, [id, navigate]);
+
+  function handleImageChange(
+    event: React.ChangeEvent<HTMLInputElement>
+  ) {
+    const file = event.target.files?.[0] || null;
+
+    setImage(file);
+
+    if (previewImage) {
+      URL.revokeObjectURL(previewImage);
+    }
+
+    if (file) {
+      const previewUrl = URL.createObjectURL(file);
+      setPreviewImage(previewUrl);
+    } else {
+      setPreviewImage(null);
+    }
+  }
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
@@ -25,23 +120,64 @@ export default function ProjectForm() {
     setLoading(true);
 
     try {
-      await api.post("/projects", {
-        title,
-        image: image || null,
-        description,
-        technologies: technologies
-          .split(",")
-          .map((item) => item.trim())
-          .filter(Boolean),
-        link: link || null,
-        github: github || null,
-        order: order ? Number(order) : undefined,
-        active,
+      const formData = new FormData();
+
+      formData.append("title", title);
+      formData.append("description", description);
+
+      const technologyList = technologies
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean);
+
+      technologyList.forEach((technology, index) => {
+        formData.append(`technologies[${index}]`, technology);
       });
+
+      if (link) {
+        formData.append("link", link);
+      }
+
+      if (github) {
+        formData.append("github", github);
+      }
+
+      if (order) {
+        formData.append("order", order);
+      }
+
+      formData.append("active", active ? "1" : "0");
+
+      /*
+       * Só envia image quando realmente existe
+       * um arquivo selecionado.
+       */
+      if (image) {
+        formData.append("image", image, image.name);
+      }
+
+      if (isEditing) {
+        /*
+         * Laravel recebe PUT através do method spoofing.
+         */
+        formData.append("_method", "PUT");
+
+        await api.post(`/projects/${id}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      } else {
+        await api.post("/projects", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      }
 
       navigate("/admin/projects");
     } catch (error: any) {
-      console.error("Erro ao criar projeto:", error);
+      console.error("Erro ao salvar projeto:", error);
 
       if (error.response?.status === 401) {
         localStorage.removeItem("portfolio_token");
@@ -51,13 +187,35 @@ export default function ProjectForm() {
         return;
       }
 
-      setError(
-        error.response?.data?.message ||
-          "Não foi possível cadastrar o projeto."
-      );
+      const validationErrors = error.response?.data?.errors;
+
+      if (validationErrors) {
+        const firstError = Object.values(validationErrors)[0];
+
+        if (Array.isArray(firstError)) {
+          setError(String(firstError[0]));
+        } else {
+          setError(String(firstError));
+        }
+      } else {
+        setError(
+          error.response?.data?.message ||
+            "Não foi possível salvar o projeto."
+        );
+      }
     } finally {
       setLoading(false);
     }
+  }
+
+  if (loadingProject) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-slate-950 text-white">
+        <p className="text-slate-400">
+          Carregando projeto...
+        </p>
+      </div>
+    );
   }
 
   return (
@@ -68,11 +226,13 @@ export default function ProjectForm() {
 
           <div>
             <h1 className="text-2xl font-bold">
-              Novo Projeto
+              {isEditing ? "Editar Projeto" : "Novo Projeto"}
             </h1>
 
             <p className="text-sm text-slate-400">
-              Cadastre um novo projeto no portfolio.
+              {isEditing
+                ? "Edite as informações do projeto."
+                : "Cadastre um novo projeto no portfolio."}
             </p>
           </div>
 
@@ -117,25 +277,65 @@ export default function ProjectForm() {
 
           {/* Imagem */}
           <div>
+
             <label className="mb-2 block text-sm text-slate-300">
-              Caminho da imagem
+              Imagem do projeto
             </label>
 
             <input
-              type="text"
-              value={image}
-              onChange={(event) => setImage(event.target.value)}
-              placeholder="Ex: images/projects/meu-projeto.png"
-              className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-3 text-white outline-none focus:border-blue-500"
+              type="file"
+              accept="image/jpeg,image/png,image/jpg,image/webp"
+              onChange={handleImageChange}
+              className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-3 text-sm text-white file:mr-4 file:rounded-lg file:border-0 file:bg-blue-600 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-blue-700"
             />
 
             <p className="mt-2 text-xs text-slate-500">
-              Por enquanto vamos utilizar imagens existentes no projeto.
+              Formatos permitidos: JPG, PNG e WEBP. Tamanho máximo: 5 MB.
             </p>
+
+            {/* Imagem nova selecionada */}
+            {previewImage && (
+              <div className="mt-5">
+
+                <p className="mb-2 text-sm text-slate-400">
+                  Pré-visualização:
+                </p>
+
+                <img
+                  src={previewImage}
+                  alt="Pré-visualização"
+                  className="h-48 w-auto rounded-lg border border-slate-700 object-cover"
+                />
+
+                <p className="mt-2 text-sm text-green-400">
+                  Nova imagem selecionada: {image?.name}
+                </p>
+
+              </div>
+            )}
+
+            {/* Imagem atual */}
+            {!previewImage && currentImage && (
+              <div className="mt-5">
+
+                <p className="mb-2 text-sm text-slate-400">
+                  Imagem atual:
+                </p>
+
+                <img
+                  src={currentImage}
+                  alt={title}
+                  className="h-48 w-auto rounded-lg border border-slate-700 object-cover"
+                />
+
+              </div>
+            )}
+
           </div>
 
           {/* Descrição */}
           <div>
+
             <label className="mb-2 block text-sm text-slate-300">
               Descrição
             </label>
@@ -148,10 +348,12 @@ export default function ProjectForm() {
               placeholder="Descrição do projeto..."
               className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-3 text-white outline-none focus:border-blue-500"
             />
+
           </div>
 
           {/* Tecnologias */}
           <div>
+
             <label className="mb-2 block text-sm text-slate-300">
               Tecnologias
             </label>
@@ -167,10 +369,12 @@ export default function ProjectForm() {
             <p className="mt-2 text-xs text-slate-500">
               Separe as tecnologias por vírgula.
             </p>
+
           </div>
 
           {/* Link */}
           <div>
+
             <label className="mb-2 block text-sm text-slate-300">
               Link do projeto
             </label>
@@ -182,10 +386,12 @@ export default function ProjectForm() {
               placeholder="https://meuprojeto.vercel.app"
               className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-3 text-white outline-none focus:border-blue-500"
             />
+
           </div>
 
           {/* GitHub */}
           <div>
+
             <label className="mb-2 block text-sm text-slate-300">
               GitHub
             </label>
@@ -197,10 +403,12 @@ export default function ProjectForm() {
               placeholder="https://github.com/usuario/projeto"
               className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-3 text-white outline-none focus:border-blue-500"
             />
+
           </div>
 
           {/* Ordem */}
           <div>
+
             <label className="mb-2 block text-sm text-slate-300">
               Ordem
             </label>
@@ -213,6 +421,7 @@ export default function ProjectForm() {
               placeholder="Ex: 7"
               className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-3 text-white outline-none focus:border-blue-500"
             />
+
           </div>
 
           {/* Ativo */}
@@ -251,7 +460,11 @@ export default function ProjectForm() {
               disabled={loading}
               className="rounded-lg bg-blue-600 px-6 py-3 font-semibold hover:bg-blue-700 disabled:opacity-50"
             >
-              {loading ? "Salvando..." : "Salvar Projeto"}
+              {loading
+                ? "Salvando..."
+                : isEditing
+                  ? "Atualizar Projeto"
+                  : "Salvar Projeto"}
             </button>
 
           </div>

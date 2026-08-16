@@ -58,6 +58,7 @@ function App() {
           <Route path="/admin" element={<Dashboard />} />
           <Route path="/admin/projects" element={<Projects />} />
           <Route path="/admin/projects/new" element={<ProjectForm />} />
+          <Route path="/admin/projects/:id/edit" element={<ProjectForm />} />
         </Route>
 
       </Routes>

@@ -45,6 +45,34 @@ export default function Projects() {
         }
     }
 
+    async function handleDelete(id: number) {
+        const confirmed = window.confirm(
+            "Tem certeza que deseja excluir este projeto?"
+        );
+
+        if (!confirmed) {
+            return;
+        }
+
+        try {
+            await api.delete(`/projects/${id}`);
+
+            await loadProjects();
+        } catch (error: any) {
+            console.error("Erro ao excluir projeto:", error);
+
+            if (error.response?.status === 401) {
+                localStorage.removeItem("portfolio_token");
+                localStorage.removeItem("portfolio_user");
+
+                navigate("/admin/login");
+                return;
+            }
+
+            setError("Não foi possível excluir o projeto.");
+        }
+    }
+
     useEffect(() => {
         loadProjects();
     }, []);
@@ -150,12 +178,14 @@ export default function Projects() {
                                     <div className="flex gap-3">
 
                                         <button
+                                            onClick={() => navigate(`/admin/projects/${project.id}/edit`)}
                                             className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold hover:bg-blue-700"
                                         >
                                             Editar
                                         </button>
 
                                         <button
+                                            onClick={() => handleDelete(project.id)}
                                             className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold hover:bg-red-700"
                                         >
                                             Excluir
