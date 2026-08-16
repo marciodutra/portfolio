@@ -1,3 +1,5 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 
@@ -9,7 +11,13 @@ import DevelopmentProjects from "./components/sections/DevelopmentProjects";
 import QAProjects from "./components/sections/QAProjects";
 import Contact from "./components/sections/Contact";
 
-function App() {
+import Login from "./admin/pages/Login";
+import Dashboard from "./admin/pages/Dashboard";
+import ProtectedRoute from "./admin/components/ProtectedRoute";
+import Projects from "./admin/pages/Projects";
+import ProjectForm from "./admin/pages/ProjectForm";
+
+function Portfolio() {
   return (
     <>
       <Header />
@@ -30,9 +38,30 @@ function App() {
         <Contact />
 
         <Footer />
-
       </main>
     </>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+
+        {/* Portfolio público */}
+        <Route path="/" element={<Portfolio />} />
+
+        {/* Painel administrativo */}
+        <Route path="/admin/login" element={<Login />} />
+
+        <Route element={<ProtectedRoute />}>
+          <Route path="/admin" element={<Dashboard />} />
+          <Route path="/admin/projects" element={<Projects />} />
+          <Route path="/admin/projects/new" element={<ProjectForm />} />
+        </Route>
+
+      </Routes>
+    </BrowserRouter>
   );
 }
 
