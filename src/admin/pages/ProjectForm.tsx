@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../services/api";
+import { uploadProjectImage } from "../../services/supabase";
 
 interface Project {
   id: number;
@@ -84,7 +85,7 @@ export default function ProjectForm() {
 
         setError(
           error.response?.data?.message ||
-            "Não foi possível carregar o projeto."
+          "Não foi possível carregar o projeto."
         );
       } finally {
         setLoadingProject(false);
@@ -153,7 +154,8 @@ export default function ProjectForm() {
        * um arquivo selecionado.
        */
       if (image) {
-        formData.append("image", image, image.name);
+        const imageUrl = await uploadProjectImage(image);
+        formData.append("image", imageUrl);
       }
 
       if (isEditing) {
@@ -200,7 +202,7 @@ export default function ProjectForm() {
       } else {
         setError(
           error.response?.data?.message ||
-            "Não foi possível salvar o projeto."
+          "Não foi possível salvar o projeto."
         );
       }
     } finally {
