@@ -85,7 +85,7 @@ export default function ProjectForm() {
 
         setError(
           error.response?.data?.message ||
-          "Não foi possível carregar o projeto."
+            "Não foi possível carregar o projeto."
         );
       } finally {
         setLoadingProject(false);
@@ -149,32 +149,18 @@ export default function ProjectForm() {
 
       formData.append("active", active ? "1" : "0");
 
-      /*
-       * Só envia image quando realmente existe
-       * um arquivo selecionado.
-       */
       if (image) {
         const imageUrl = await uploadProjectImage(image);
+
         formData.append("image", imageUrl);
       }
 
       if (isEditing) {
-        /*
-         * Laravel recebe PUT através do method spoofing.
-         */
         formData.append("_method", "PUT");
 
-        await api.post(`/projects/${id}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        await api.post(`/projects/${id}`, formData);
       } else {
-        await api.post("/projects", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        await api.post("/projects", formData);
       }
 
       navigate("/admin/projects");
@@ -202,7 +188,8 @@ export default function ProjectForm() {
       } else {
         setError(
           error.response?.data?.message ||
-          "Não foi possível salvar o projeto."
+            error.message ||
+            "Não foi possível salvar o projeto."
         );
       }
     } finally {
@@ -261,7 +248,6 @@ export default function ProjectForm() {
             </div>
           )}
 
-          {/* Título */}
           <div>
             <label className="mb-2 block text-sm text-slate-300">
               Título
@@ -277,7 +263,6 @@ export default function ProjectForm() {
             />
           </div>
 
-          {/* Imagem */}
           <div>
 
             <label className="mb-2 block text-sm text-slate-300">
@@ -295,7 +280,6 @@ export default function ProjectForm() {
               Formatos permitidos: JPG, PNG e WEBP. Tamanho máximo: 5 MB.
             </p>
 
-            {/* Imagem nova selecionada */}
             {previewImage && (
               <div className="mt-5">
 
@@ -316,7 +300,6 @@ export default function ProjectForm() {
               </div>
             )}
 
-            {/* Imagem atual */}
             {!previewImage && currentImage && (
               <div className="mt-5">
 
@@ -335,7 +318,6 @@ export default function ProjectForm() {
 
           </div>
 
-          {/* Descrição */}
           <div>
 
             <label className="mb-2 block text-sm text-slate-300">
@@ -353,7 +335,6 @@ export default function ProjectForm() {
 
           </div>
 
-          {/* Tecnologias */}
           <div>
 
             <label className="mb-2 block text-sm text-slate-300">
@@ -374,7 +355,6 @@ export default function ProjectForm() {
 
           </div>
 
-          {/* Link */}
           <div>
 
             <label className="mb-2 block text-sm text-slate-300">
@@ -391,7 +371,6 @@ export default function ProjectForm() {
 
           </div>
 
-          {/* GitHub */}
           <div>
 
             <label className="mb-2 block text-sm text-slate-300">
@@ -408,7 +387,6 @@ export default function ProjectForm() {
 
           </div>
 
-          {/* Ordem */}
           <div>
 
             <label className="mb-2 block text-sm text-slate-300">
@@ -426,7 +404,6 @@ export default function ProjectForm() {
 
           </div>
 
-          {/* Ativo */}
           <div className="flex items-center gap-3">
 
             <input
@@ -446,7 +423,6 @@ export default function ProjectForm() {
 
           </div>
 
-          {/* Botões */}
           <div className="flex gap-4 pt-4">
 
             <button
