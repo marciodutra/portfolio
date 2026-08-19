@@ -1,10 +1,40 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-import { experiences } from "../../data/experience";
+import api from "../../services/api";
 import curriculo from "../../assets/documents/curriculo.pdf";
 
+interface Experience {
+  id: number;
+  company: string;
+  role: string;
+  period: string;
+  description: string;
+  technologies: string[];
+  active: boolean;
+  order: number;
+}
 
 function Experience() {
+  const [experiences, setExperiences] = useState<Experience[]>([]);
+
+  useEffect(() => {
+    async function loadExperiences() {
+      try {
+        const response = await api.get("/experiences");
+
+        setExperiences(response.data);
+      } catch (error) {
+        console.error(
+          "Erro ao carregar experiências:",
+          error
+        );
+      }
+    }
+
+    loadExperiences();
+  }, []);
+
   return (
     <section
       id="experiencia"
@@ -17,7 +47,6 @@ function Experience() {
         text-white
       "
     >
-
       <div
         className="
           mx-auto
@@ -46,7 +75,6 @@ function Experience() {
           Experiência Profissional
         </motion.h2>
 
-
         <motion.p
           initial={{
             opacity: 0,
@@ -67,8 +95,6 @@ function Experience() {
           desenvolvimento, infraestrutura e tecnologia.
         </motion.p>
 
-
-
         <div
           className="
             relative
@@ -80,11 +106,10 @@ function Experience() {
           "
         >
 
-
           {experiences.map((experience) => (
 
             <motion.div
-              key={experience.company}
+              key={experience.id}
               initial={{
                 opacity: 0,
                 y: 40,
@@ -102,7 +127,6 @@ function Experience() {
               className="relative w-full overflow-hidden"
             >
 
-
               <div
                 className="
                   absolute
@@ -116,7 +140,6 @@ function Experience() {
                   bg-blue-500
                 "
               />
-
 
               <div
                 className="
@@ -132,7 +155,6 @@ function Experience() {
                   hover:shadow-xl
                 "
               >
-
 
                 <div
                   className="
@@ -150,32 +172,25 @@ function Experience() {
                       {experience.role}
                     </h3>
 
-
                     <p className="text-gray-400">
                       {experience.company}
                     </p>
 
                   </div>
 
-
                   <span className="text-sm text-gray-400">
                     {experience.period}
                   </span>
 
-
                 </div>
-
-
 
                 <p className="mt-5 leading-relaxed text-gray-300">
                   {experience.description}
                 </p>
 
-
-
                 <div className="mt-5 flex flex-wrap gap-2">
 
-                  {experience.technologies.map((tech) => (
+                  {experience.technologies?.map((tech) => (
 
                     <span
                       key={tech}
@@ -195,18 +210,13 @@ function Experience() {
 
                 </div>
 
-
               </div>
-
 
             </motion.div>
 
           ))}
 
-
         </div>
-
-
 
         <motion.div
           initial={{
@@ -247,12 +257,9 @@ function Experience() {
 
         </motion.div>
 
-
       </div>
-
     </section>
   );
 }
-
 
 export default Experience;
