@@ -17,6 +17,7 @@ import ProtectedRoute from "./admin/components/ProtectedRoute";
 import Projects from "./admin/pages/Projects";
 import ProjectForm from "./admin/pages/ProjectForm";
 import Experiences from "./admin/pages/Experiences";
+import ExperienceForm from "./admin/pages/ExperienceForm";
 
 function Portfolio() {
   return (
@@ -61,6 +62,8 @@ function App() {
           <Route path="/admin/projects/new" element={<ProjectForm />} />
           <Route path="/admin/projects/:id/edit" element={<ProjectForm />} />
           <Route path="/admin/experiences" element={<Experiences />} />
+          <Route path="/admin/experiences/new" element={<ExperienceForm />} />
+          <Route path="/admin/experiences/:id/edit" element={<ExperienceForm />} />
         </Route>
 
       </Routes>
